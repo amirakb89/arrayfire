@@ -22,7 +22,7 @@ jobs:
     steps:
       # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
         
 
       # Create build directory and run CMake
