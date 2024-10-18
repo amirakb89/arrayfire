@@ -1,0 +1,49 @@
+   # .github/workflows/build.yml
+name: host_cuda_unix
+
+# Trigger the workflow on push or pull request to the main branch
+on:
+  #push:
+  # branches:
+  #  - main
+  # pull_request:
+  #  branches:
+  #    - main
+  workflow_dispatch:
+  
+# Define the jobs to run
+jobs:
+  build:
+    runs-on: 
+      - self-hosted
+      - label-1
+    strategy:
+      fail-fast: false
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install OpenCl
+        run: |
+          sudo apt-get install ocl-icd-opencl-dev
+
+      # Create build directory and run CMake
+      - name: Configure CMake
+        env:
+          CC: gcc
+        run: |
+          mkdir build && cd build
+          cmake -G Ninja ..\
+            -DAF_BUILD_CUDA:BOOL=OFF -DAF_BUILD_OPENCL:BOOL=ON \
+            -DAF_BUILD_UNIFIED:BOOL=OFF -DAF_BUILD_EXAMPLES:BOOL=ON \
+            -DAF_BUILD_FORGE:BOOL=ON ..
+
+      # Optionally, run the executable to verify it works
+      - name: Run the executable
+        run: |
+          cd ${GITHUB_WORKSPACE}/build
+          ninja -j4
+      - name: run test
+        run:  |
+          cd ${GITHUB_WORKSPACE}/build
+          ctest -D Experimental --track ${CTEST_DASHBOARD} -T Test -T Submit -R opencl -j2
