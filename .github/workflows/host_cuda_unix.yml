@@ -34,9 +34,10 @@ jobs:
           cmake -G Ninja ..\
             -DAF_BUILD_CUDA:BOOL=OFF -DAF_BUILD_OPENCL:BOOL=ON \
             -DAF_BUILD_UNIFIED:BOOL=OFF -DAF_BUILD_EXAMPLES:BOOL=ON \
-            -DAF_BUILD_FORGE:BOOL=ON \
+            -DAF_BUILD_FORGE:BOOL=ON ..
 
       # Optionally, run the executable to verify it works
       - name: Run the executable
         run: |
+          cd ${GITHUB_WORKSPACE}/build
           ninja -j4
