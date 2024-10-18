@@ -41,3 +41,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/build
           ninja -j4
+      - name: run test
+        run:  |
+          cd ${GITHUB_WORKSPACE}/build
+          ctest -D Experimental --track ${CTEST_DASHBOARD} -T Test -T Submit -R opencl 
