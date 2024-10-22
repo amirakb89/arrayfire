@@ -23,7 +23,9 @@ jobs:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
-        
+      - name: Install OpenCl
+        run: |
+          sudo apt-get install ocl-icd-opencl-dev
 
       # Create build directory and run CMake
       - name: Configure CMake
