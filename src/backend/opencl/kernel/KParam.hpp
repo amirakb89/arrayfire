@@ -17,7 +17,7 @@
 #endif
 
 // Defines the size and shape of the data in the OpenCL buffer
-typedef struct {
+struct KP {
     dim_t dims[4];
     dim_t strides[4];
     dim_t offset;
@@ -27,6 +27,6 @@ typedef struct {
     dim_t *strides_ptr() { return strides; }
 #endif
 
-} KParam;
-
+};
+typedef struct KP KParam;
 #endif
